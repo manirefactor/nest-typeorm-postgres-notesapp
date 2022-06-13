@@ -14,10 +14,10 @@ export class NotesController{
     }
 
     //get note by id
-    @Get(':id')
-    getNotebyId(@Param('id') id:string){
-        return this.noteService.getNoteById(Number(id));
-    }
+     @Get(':id')
+     getNotebyId(@Param('id') id:string){
+         return this.noteService.getNoteById(parseInt(id));
+     }
 
     //create note
     @Post()
@@ -25,15 +25,16 @@ export class NotesController{
         return this.noteService.createNote(note);
     }
 
+    //Update Note
     @Put(':id')
     async updateNote(@Param('id') id:string, @Body() note:updateNoteDto){
-        return this.noteService.updateNote(Number(id),note);
+        return this.noteService.updateNote(parseInt(id),note);
     }
 
     //delete note
     @Delete(':id')
     async deleteNote(@Param('id') id:string){
-        this.noteService.deleteNote(Number(id));
+       return this.noteService.deleteNote(Number(id));
     }
 
 }

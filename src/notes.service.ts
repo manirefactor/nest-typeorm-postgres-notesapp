@@ -15,8 +15,8 @@ export class NotesService{
     }
 
     //Get By Id
-    async getNoteById(id){
-        const note = await this.noteRepo.findOne(id);
+    async getNoteById(id:number){
+        const note = await this.noteRepo.findByIds([id]);
         if(note){return note;}
         throw new HttpException('Note not found',HttpStatus.NOT_FOUND);
     }
@@ -29,16 +29,22 @@ export class NotesService{
     }
 
     //update
-    async updateNote(id,post:updateNoteDto){
+    async updateNote(id:number,post:updateNoteDto){
         await this.noteRepo.update(id,post);
-        const updatedNote=await this.noteRepo.findOne(id);
-        if(updatedNote){return updatedNote;}
-        throw new HttpException('Note Not Found',HttpStatus.NOT_FOUND);
+        const updatedNote=await this.noteRepo.findByIds([id]);
+        if(updatedNote){
+            return updatedNote;
+        }
+        //throw new HttpException('Note Not Found',HttpStatus.NOT_FOUND);
     }
 
     //delete
     async deleteNote(id:number){
+        const del=await this.noteRepo.findByIds([id]);
         const deletedNote=await this.noteRepo.delete(id);
+        if(deletedNote){
+            return del;
+        }
         if(!deletedNote.affected){
             throw new HttpException('Note not found',HttpStatus.NOT_FOUND);
         }
