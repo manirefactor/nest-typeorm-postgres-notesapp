@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import CreateNoteDto from "./createNote.dto";
 import { NotesService } from "./notes.service";
 import updateNoteDto from "./updateNote.dto";
@@ -6,6 +6,12 @@ import updateNoteDto from "./updateNote.dto";
 @Controller()
 export class NotesController{
     constructor(private readonly noteService:NotesService){}
+
+    //Get by Query
+    @Get('/q')
+    async getEvenids(){
+        return await this.noteService.getEvenIds();
+    }
 
     //Get all notes
     @Get()

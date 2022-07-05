@@ -8,6 +8,18 @@ import updateNoteDto from "./updateNote.dto";
 @Injectable()
 export class NotesService{
     constructor(@InjectRepository(Note) private noteRepo:Repository<Note>,){}
+    
+    async getEvenIds(){
+        const queryBuilder=
+        this.noteRepo.createQueryBuilder('note');
+
+        queryBuilder
+        .select('note')
+        .where('note.id % 3 =0');
+
+        const entities=await queryBuilder.getMany();
+        return entities;
+    }
 
     //Getall
     getAllNotes(){
@@ -49,4 +61,8 @@ export class NotesService{
             throw new HttpException('Note not found',HttpStatus.NOT_FOUND);
         }
     }
+
+
+
+
 }
